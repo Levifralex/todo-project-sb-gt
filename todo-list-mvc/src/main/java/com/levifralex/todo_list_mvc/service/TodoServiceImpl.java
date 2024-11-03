@@ -10,17 +10,24 @@ import org.springframework.stereotype.Service;
 
 import com.levifralex.todo_list_mvc.dto.TodoDTO;
 import com.levifralex.todo_list_mvc.entity.TodoEntity;
+import com.levifralex.todo_list_mvc.entity.UserEntity;
 import com.levifralex.todo_list_mvc.enums.TodoStateEnum;
 import com.levifralex.todo_list_mvc.mapper.TodoMapper;
 import com.levifralex.todo_list_mvc.repository.TodoRepository;
+import com.levifralex.todo_list_mvc.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class TodoServiceImpl implements TodoService {
 
 	@Autowired
 	private TodoRepository todoRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private TodoMapper todoMapper;
@@ -42,6 +49,15 @@ public class TodoServiceImpl implements TodoService {
 
 		TodoEntity todoEntity = todoMapper.toEntity(t);
 		todoEntity.setState(TodoStateEnum.ACTIVE.getCode());
+
+		// assign user
+		Optional<UserEntity> optUser = userRepository.findById(t.getUserId());
+
+		if (!optUser.isPresent()) {
+			throw new ServiceException("Invalid User");
+		}
+
+		todoEntity.setUser(optUser.get());
 
 		TodoEntity retTodoEntity = todoRepository.save(todoEntity);
 		if (retTodoEntity == null) {
@@ -123,6 +139,16 @@ public class TodoServiceImpl implements TodoService {
 		todoRepository.findById(id)
 				.orElseThrow(() -> new ServiceException(String.format("Todo not foud with id %s", id)));
 		todoRepository.deleteLogic(id);
+	}
+
+	@Override
+	public List<TodoDTO> findByLikeDescription(String description) throws ServiceException {
+		try {
+			return todoMapper.toDTO(todoRepository.findByLikeDescription("%" + description + "%"));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
 	}
 
 }

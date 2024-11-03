@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Todo List</title>
+	<title>Lista de Tareas</title>
 	<link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
 </head>
 
@@ -14,15 +14,15 @@
 
 		<form action="#" th:action="@{/buscar}" th:object="${todoDTO}" method="post">
 
-			<h2>Todo List</h2>
+			<h2>List de Tareas</h2>
 
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="description" class="col-form-label">
+						<label for="descriptionSearch" class="col-form-label">
 							Description
 						</label>
-						<input type="text" th:field="*{description}" class="form-control" id="description"
+						<input type="text" th:field="*{descriptionSearch}" class="form-control" id="descriptionSearch"
 							placeholder="">
 					</div>
 				</div>
@@ -46,17 +46,21 @@
 						<table class="table table-striped" id="table">
 							<thead>
 								<tr>
-									<th scope="col">Id</th>
-									<th scope="col">Title</th>
-									<th scope="col">Description</th>
+									<!--<th scope="col">Id</th>-->
+									<th scope="col">Fecha de Registro</th>
+									<th scope="col">Titulo</th>
+									<th scope="col">Descripcion</th>
+									<th scope="col">Usuario</th>
 									<th scope="col">Acción</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="todo : ${todos}">
-									<td scope="row" th:text="${todo.id}"></td>
+									<!--<td scope="row" th:text="${todo.id}"></td>-->
+									<td scope="row" th:text="${todo.createdAt}"></td>
 									<td th:text="${todo.title}"></td>
 									<td th:text="${todo.description}"></td>
+									<td th:text="${todo.user.name}"></td>
 									<td>
 										<a class="btn btn-info" th:href="@{/modificar/{id}(id=${todo.id})}">
 											Modificar

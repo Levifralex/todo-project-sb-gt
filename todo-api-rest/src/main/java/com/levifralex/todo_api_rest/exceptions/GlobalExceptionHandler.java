@@ -18,19 +18,18 @@ import com.levifralex.todo_api_rest.exceptions.dto.ErrorMessage;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-	
-	/*@ExceptionHandler(Exception.class)
-	public ResponseEntity<GenericResponse<CustomErrorResponse>> handleAllExceptions(Exception ex, WebRequest req) {
 
-		CustomErrorResponse errorResponse = new CustomErrorResponse(LocalDateTime.now(), ex.getMessage(),
-				req.getDescription(false));
-		return new ResponseEntity<>(new GenericResponse<>(500, "BACKEND-ERROR", Arrays.asList(errorResponse)),
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}*/
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest req) {
+		Map<String, Object> errors = new LinkedHashMap<>();
+		errors.put("message", ex.getMessage());
+		errors.put("error", HttpStatus.INTERNAL_SERVER_ERROR.toString());
+		return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<ErrorMessage> recouserNotFoundException(ResourceNotFoundException exception) {
+	public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException exception) {
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 	}

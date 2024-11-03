@@ -39,7 +39,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> save(@RequestBody UserDTO user) {
+	public ResponseEntity<?> save(@RequestBody UserDTO user) throws ResourceNotFoundException {
 		Map<String, Object> body = new HashMap<>();
 		try {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));

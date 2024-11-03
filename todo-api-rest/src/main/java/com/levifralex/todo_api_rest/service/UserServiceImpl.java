@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public Optional<UserDTO> findById(Long id) throws ServiceException {
+	public Optional<UserDTO> findById(Long id) throws ResourceNotFoundException {
 		UserEntity userEntity = userRepository.findById(id)
-				.orElseThrow(() -> new ServiceException(String.format("User not foud with id %s", id)));
+				.orElseThrow(() -> new ResourceNotFoundException(String.format("User not foud with id %s", id)));
 		return Optional.ofNullable(userMapper.toDTO(userEntity));
 
 	}

@@ -14,6 +14,7 @@ import com.levifralex.todo_api_rest.dto.TodoDTO;
 import com.levifralex.todo_api_rest.dto.UserDTO;
 import com.levifralex.todo_api_rest.entity.TodoEntity;
 import com.levifralex.todo_api_rest.enums.TodoStateEnum;
+import com.levifralex.todo_api_rest.exceptions.ResourceNotFoundException;
 import com.levifralex.todo_api_rest.mapper.TodoMapper;
 import com.levifralex.todo_api_rest.mapper.UserMapper;
 import com.levifralex.todo_api_rest.repository.TodoRepository;
@@ -41,14 +42,14 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public Optional<TodoDTO> findById(Long id) throws ServiceException {
+	public Optional<TodoDTO> findById(Long id) throws ResourceNotFoundException {
 		TodoEntity todoEntity = todoRepository.findById(id)
-				.orElseThrow(() -> new ServiceException(String.format("Todo not foud with id %s", id)));
+				.orElseThrow(() -> new ResourceNotFoundException(String.format("Todo not foud with id %s", id)));
 		return Optional.ofNullable(todoMapper.toDTO(todoEntity));
 	}
 
 	@Override
-	public TodoDTO save(TodoDTO t) throws ServiceException {
+	public TodoDTO save(TodoDTO t) throws ServiceException, ResourceNotFoundException {
 
 		TodoEntity todoEntity = todoMapper.toEntity(t);
 		todoEntity.setState(TodoStateEnum.ACTIVE.getCode());
@@ -58,7 +59,7 @@ public class TodoServiceImpl implements TodoService {
 		if (userOpt.isPresent()) {
 			todoEntity.setUser(userMapper.toEntity(userOpt.get()));
 		} else {
-			throw new ServiceException("Usuario no encontrado con ID: " + t.getUserId());
+			throw new ResourceNotFoundException("Usuario no encontrado con ID: " + t.getUserId());
 		}
 
 		TodoEntity retTodoEntity = todoRepository.save(todoEntity);

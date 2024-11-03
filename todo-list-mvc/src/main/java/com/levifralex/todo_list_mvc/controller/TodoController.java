@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.levifralex.todo_list_mvc.dto.TodoDTO;
+import com.levifralex.todo_list_mvc.dto.UserDTO;
 import com.levifralex.todo_list_mvc.service.TodoService;
+import com.levifralex.todo_list_mvc.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +26,9 @@ public class TodoController {
 
 	@Autowired
 	private TodoService todoService;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping
 	public String findAll(TodoDTO todoDTO, Model model) throws ServiceException {
@@ -37,9 +42,12 @@ public class TodoController {
 		}
 	}
 
+	// TODO: REVISAR
 	@GetMapping("/nuevo")
-	public String nuevo(TodoDTO todoDTO) {
+	public String nuevo(TodoDTO todoDTO, Model model) {
 		try {
+			List<UserDTO> users = userService.findAll();
+			model.addAttribute("users", users);
 			return "todo-save";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -87,8 +95,11 @@ public class TodoController {
 	public String modificar(@PathVariable Long id, Model model) {
 		try {
 			Optional<TodoDTO> optTodoDTO = todoService.findById(id);
-
 			model.addAttribute("todoDTO", optTodoDTO.get());
+
+			List<UserDTO> users = userService.findAll();
+			model.addAttribute("users", users);
+
 			return "todo-save";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -109,6 +120,22 @@ public class TodoController {
 			return "";
 		}
 
+	}
+
+	@PostMapping("/buscar")
+	public String buscar(TodoDTO todoDTO, Model model) {
+		try {
+			log.info("todoDTO.getDescriptionSearch() " + todoDTO.getDescriptionSearch());
+
+			List<TodoDTO> listTodoDTO = todoService.findByLikeDescription(todoDTO.getDescriptionSearch());
+
+			model.addAttribute("todos", listTodoDTO);
+
+			return "todo-list";
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return "";
+		}
 	}
 
 }

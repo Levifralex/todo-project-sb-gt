@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.levifralex.todo_api_rest.dto.CustomPageable;
 import com.levifralex.todo_api_rest.dto.TodoDTO;
+import com.levifralex.todo_api_rest.exceptions.ResourceNotFoundException;
 import com.levifralex.todo_api_rest.service.ServiceException;
 import com.levifralex.todo_api_rest.service.TodoService;
 
@@ -46,7 +47,7 @@ public class TodoController {
 	}
 
 	@GetMapping("/{id}")
-	public Optional<TodoDTO> findById(@PathVariable Long id) throws ServiceException {
+	public Optional<TodoDTO> findById(@PathVariable Long id) throws ResourceNotFoundException, ServiceException {
 		return todoService.findById(id);
 	}
 
@@ -65,7 +66,7 @@ public class TodoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody TodoDTO todo) {
+	public ResponseEntity<?> save(@RequestBody TodoDTO todo) throws ResourceNotFoundException {
 		Map<String, Object> body = new HashMap<>();
 		try {
 			TodoDTO oTodo = todoService.save(todo);

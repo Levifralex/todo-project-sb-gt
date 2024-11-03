@@ -17,6 +17,8 @@ public class TodoMapperImpl implements TodoMapper {
 
 	@Override
 	public TodoDTO toDTO(TodoEntity e) {
+		modelMapper.getConfiguration().setAmbiguityIgnored(true);
+		//modelMapper.createTypeMap(TodoEntity.class, TodoDTO.class).addMapping(TodoEntity::getUser, TodoDTO::setUser);
 		return modelMapper.map(e, TodoDTO.class);
 	}
 
