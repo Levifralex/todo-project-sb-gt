@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Lista de Tareas</title>
+	<link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="container">
+
+		<form action="#" th:action="@{/buscar}" th:object="${todoDTO}" method="post">
+
+			<h2>List de Tareas</h2>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="descriptionSearch" class="col-form-label">
+							Description
+						</label>
+						<input type="text" th:field="*{descriptionSearch}" class="form-control" id="descriptionSearch"
+							placeholder="">
+					</div>
+				</div>
+
+				<div class="col-sm-6 text-right">
+					<div class="form-group box-main-btn">
+						<span style="display: block;height: 30px"></span>
+
+						<input type="submit" class="btn btn-primary" name="buscar" value="Buscar">
+
+						<a class="btn btn-secondary" th:href="@{/cancelar}">Limpiar</a>
+						<a class="btn btn-success" href="#" th:href="@{/nuevo}">Nuevo</a>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="table-responsive">
+						<table class="table table-striped" id="table">
+							<thead>
+								<tr>
+									<!--<th scope="col">Id</th>-->
+									<th scope="col">Fecha de Registro</th>
+									<th scope="col">Titulo</th>
+									<th scope="col">Descripcion</th>
+									<th scope="col">Usuario</th>
+									<th scope="col">Acción</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="todo : ${todos}">
+									<!--<td scope="row" th:text="${todo.id}"></td>-->
+									<td scope="row" th:text="${todo.createdAt}"></td>
+									<td th:text="${todo.title}"></td>
+									<td th:text="${todo.description}"></td>
+									<td th:text="${todo.user.name}"></td>
+									<td>
+										<a class="btn btn-info" th:href="@{/modificar/{id}(id=${todo.id})}">
+											Modificar
+											<i class='fas fa-pencil-alt'></i>
+										</a>
+										<a class="btn btn-warning" th:href="@{/eliminar/{id}(id=${todo.id})}">
+											Eliminar
+											<i class='fas fa-pencil-alt'></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+
+</html>

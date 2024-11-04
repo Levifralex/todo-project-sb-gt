@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>Registro de Tareas</title>
+
+	<link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+
+<body>
+	<div class="container">
+		<form action="#" th:action="@{/grabar}" th:object="${todoDTO}" method="post">
+			<h2>Registro de tareas</h2>
+
+			<div class="row">
+
+				<input type="hidden" th:field="*{id}">
+
+				<div class="cols-sm-4">
+					<div class="form-group">
+						<label for="title" class="col-form-label">
+							Titulo
+						</label>
+						<input type="text" th:field="*{title}" class="form-control" id="title" placeholder="">
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="cols-sm-4">
+					<div class="form-group">
+						<label for="de" class="col-form-label">
+							Descripcion
+						</label>
+						<input type="text" th:field="*{description}" class="form-control" id="description"
+							placeholder="">
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="cols-sm-4">
+					<div class="form-group">
+						<label for="de" class="col-form-label">
+							Usuario
+						</label>
+						<select th:field="*{userId}" class="form-control">
+							<option th:each="user : ${users}" th:text="${user.name}" th:value="${user.id}">
+						</select>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-sm-5 text-right">
+					<div class="form-group box-main-btn">
+						<span style="display: block;height: 30px;"></span>
+
+						<input type="submit" class="btn btn-primary" value="Grabar">
+						<a class="btn btn-secondary" href="#" th:href="@{/cancelar}">Cancelar</a>
+
+					</div>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+
+</body>
+
+</html>
