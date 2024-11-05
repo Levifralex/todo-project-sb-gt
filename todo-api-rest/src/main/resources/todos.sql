@@ -1,0 +1,1 @@
+INSERT INTO tbl_todo(state, id, timestamp, user_id, description, title) VALUES (1, 200, '2024-11-05 16:56:10.687505', 3, 'prueba de insercion', 'prueba @sql');

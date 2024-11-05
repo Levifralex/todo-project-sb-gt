@@ -1,0 +1,1 @@
+INSERT INTO tbl_user(id, email, name, password) VALUES (3, 'camila@gmail.com', 'camila', '$2a$10$Li6gvVjWxDnPGesTSAvmLO6G0XtGT5kPcvc.VBMKQx3EfncRtERP.');

@@ -7,5 +7,7 @@ public class CustomPageable {
 
 	private int pageNumber;
 	private int pageSize;
+	private String[] fields;
+	private String order;
 	
 }

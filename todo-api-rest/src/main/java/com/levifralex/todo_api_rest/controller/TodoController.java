@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +29,7 @@ import com.levifralex.todo_api_rest.exceptions.ResourceNotFoundException;
 import com.levifralex.todo_api_rest.service.ServiceException;
 import com.levifralex.todo_api_rest.service.TodoService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -54,7 +57,8 @@ public class TodoController {
 	@PostMapping("paging")
 	public ResponseEntity<Page<TodoDTO>> findAllPaging(@RequestBody CustomPageable page) throws ServiceException {
 
-		Pageable pageable = PageRequest.of(page.getPageNumber()-1, page.getPageSize());
+		Pageable pageable = PageRequest.of(page.getPageNumber() - 1, page.getPageSize(),
+				Sort.by(Direction.valueOf(page.getOrder()), page.getFields()));
 
 		Page<TodoDTO> todos = todoService.findAllPaging(pageable);
 
@@ -83,7 +87,7 @@ public class TodoController {
 	}
 
 	@PutMapping("/{id}")
-	public TodoDTO update(@PathVariable Long id, @RequestBody TodoDTO todo) throws ServiceException {
+	public TodoDTO update(@PathVariable Long id, @RequestBody @Valid TodoDTO todo) throws ServiceException {
 		todo.setId(id);
 		return todoService.update(todo);
 	}
