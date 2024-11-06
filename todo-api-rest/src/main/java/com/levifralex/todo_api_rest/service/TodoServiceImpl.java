@@ -71,7 +71,7 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public TodoDTO update(TodoDTO t) throws ServiceException {
+	public TodoDTO update(TodoDTO t) throws ServiceException, ResourceNotFoundException {
 
 		int stateExists = Arrays.stream(TodoStateEnum.values()).filter(e -> e.getCode() == t.getState())
 				.collect(Collectors.toList()).size();
@@ -88,6 +88,14 @@ public class TodoServiceImpl implements TodoService {
 			oTodo.setTitle(t.getTitle());
 			oTodo.setDescription(t.getDescription());
 			oTodo.setState(t.getState());
+
+			Optional<UserDTO> userOpt = userService.findById(t.getUserId());
+
+			if (userOpt.isPresent()) {
+				oTodo.setUser(userMapper.toEntity(userOpt.get()));
+			} else {
+				throw new ResourceNotFoundException("Usuario no encontrado con ID: " + t.getUserId());
+			}
 
 			TodoEntity retTodoEntity = todoRepository.save(oTodo);
 
@@ -113,7 +121,7 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public void customUpdate(TodoDTO t) throws ServiceException {
+	public void customUpdate(TodoDTO t) throws ServiceException, ResourceNotFoundException {
 
 		Optional<TodoEntity> optTodo = todoRepository.findById(t.getId());
 
@@ -122,6 +130,15 @@ public class TodoServiceImpl implements TodoService {
 			oTodo.setTitle(t.getTitle());
 			oTodo.setDescription(t.getDescription());
 			oTodo.setState(t.getState());
+
+			Optional<UserDTO> userOpt = userService.findById(t.getUserId());
+
+			if (userOpt.isPresent()) {
+				oTodo.setUser(userMapper.toEntity(userOpt.get()));
+			} else {
+				throw new ResourceNotFoundException("Usuario no encontrado con ID: " + t.getUserId());
+			}
+
 			todoRepository.save(oTodo);
 		} else {
 			throw new RuntimeException("Todo not found");

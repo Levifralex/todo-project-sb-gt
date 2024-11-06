@@ -13,7 +13,7 @@ public interface GenericService<T> {
 
 	T save(T t) throws ServiceException, ResourceNotFoundException;
 
-	T update(T t) throws ServiceException;
+	T update(T t) throws ServiceException, ResourceNotFoundException;
 
 	void delete(Long id) throws ServiceException;
 

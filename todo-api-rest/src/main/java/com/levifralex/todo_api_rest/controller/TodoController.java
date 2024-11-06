@@ -87,13 +87,13 @@ public class TodoController {
 	}
 
 	@PutMapping("/{id}")
-	public TodoDTO update(@PathVariable Long id, @RequestBody @Valid TodoDTO todo) throws ServiceException {
+	public TodoDTO update(@PathVariable Long id, @RequestBody @Valid TodoDTO todo) throws ServiceException, ResourceNotFoundException {
 		todo.setId(id);
 		return todoService.update(todo);
 	}
 
 	@PatchMapping("/{id}")
-	public void customUpdate(@PathVariable Long id, @RequestBody TodoDTO todo) throws ServiceException {
+	public void customUpdate(@PathVariable Long id, @RequestBody TodoDTO todo) throws ServiceException, ResourceNotFoundException {
 		todo.setId(id);
 		todoService.customUpdate(todo);
 	}
