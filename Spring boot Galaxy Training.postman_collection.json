@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "a459146d-a18f-41e2-a833-7b33364a2884",
+		"name": "Spring boot Galaxy Training",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "647836"
+	},
+	"item": [
+		{
+			"name": "Todo Api",
+			"item": [
+				{
+					"name": "todos",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Prueba 05/11/2024\",\r\n    \"description\": \"Proin vel ultricies augue. Nam accumsan a mauris eget laoreet.\",\r\n    \"userId\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicUrl}}/todos"
+							},
+							"response": []
+						},
+						{
+							"name": "getAllPaging",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pageNumber\": 1,\r\n    \"pageSize\": 10,\r\n    \"fields\": [\r\n        \"description\",\r\n        \"title\"\r\n    ],\r\n    \"order\": \"DESC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicUrl}}/todos/paging"
+							},
+							"response": []
+						},
+						{
+							"name": "getAll",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{todoApiBasicUrl}}/todos"
+							},
+							"response": []
+						},
+						{
+							"name": "findById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{todoApiBasicUrl}}/todos/100"
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "{{todoApiBasicUrl}}/todos/1"
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Practica\",\r\n    \"description\": \"Hay que practicar spring boot\",\r\n    \"state\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicUrl}}/todos/1"
+							},
+							"response": []
+						},
+						{
+							"name": "update (patch)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{todoToken}}"
+									}
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Comprar para almuerzo - 06112024 - hola\",\r\n    \"description\": \"comprar vegetales y pollo. no olvidar camotes\",\r\n    \"userId\": 5,\r\n    \"state\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicUrl}}/todos/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "registerUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"alexander\", \r\n    \"email\": \"alexander@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicUrl}}/auth/register"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var json = pm.response.json();\r",
+											"//console.log(\"json => \", json.token);\r",
+											"if(json.token) {\r",
+											"    pm.collectionVariables.set(\"todoToken\", json.token);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"username\": \"levifralex\", \r\n    \"password\": \"123456\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicUrl}}/auth/login"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Todo Api Backend",
+			"item": [
+				{
+					"name": "todos",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{todoApiBasicBackend}}/todos"
+							},
+							"response": []
+						},
+						{
+							"name": "findById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{todoApiBasicBackend}}/todos/1"
+							},
+							"response": []
+						},
+						{
+							"name": "findByDescription",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{todoApiBasicBackend}}/todos/find-by-description?description=prueba",
+									"host": [
+										"{{todoApiBasicBackend}}"
+									],
+									"path": [
+										"todos",
+										"find-by-description"
+									],
+									"query": [
+										{
+											"key": "description",
+											"value": "prueba"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{todoApiBasicBackend}}/todos/1"
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Prueba 04/11/2024\",\r\n    \"description\": \"Proin vel ultricies augue. Nam accumsan a mauris eget laoreet.\",\r\n    \"userId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicBackend}}/todos"
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Prueba 11/11/2024 - modificado\",\r\n    \"description\": \"Prueba mapper v1 con mapstruct. - modificado\",\r\n    \"userId\": 1,\r\n    \"state\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{todoApiBasicBackend}}/todos/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{todoApiBasicBackend}}/users"
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{todoApiBasicBackend}}/users/1"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "todoApiBasicUrl",
+			"value": "localhost:8081/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "todoToken",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXZpZnJhbGV4IiwiaWF0IjoxNzMwMTY3MTg3LCJleHAiOjE3MzAyMDMxODd9.GwM-1qSbwa1y0GSUyAZo5oZtlcB97unqhK6YidXgpow",
+			"type": "string"
+		},
+		{
+			"key": "todoApiBasicBackend",
+			"value": "localhost:8082/api/v1",
+			"type": "string"
+		}
+	]
+}
