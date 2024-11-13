@@ -17,13 +17,14 @@ Este proyecto es una aplicación que permite a los usuarios crear, editar y elim
 
 ## Contenido
 
-El proyecto contiene 4 subproyectos:
+El proyecto contiene 6 subproyectos:
 
 - todo-api-rest: la api esta protegida con JWT para la autenticación
 - todo-list-mvc: la aplicacion web usa thymeleaf para renderizar la interfaz, la logica de negocio se encuentra en el mismo proyecto
 - todo-backend: contiene una logica de negocio para la aplicación todo-frontend
 - todo-frontend: interfaz web para la aplicación que utiliza como el proyecto todo-backend para la logica de negocio
-
+- mapper-v1: api rest aplicando DTO's con la libreria MapStruct
+- mapper-v2: api rest aplicando DTO's con mapper personalizado
 
 ## Estructura de la base de datos
 
